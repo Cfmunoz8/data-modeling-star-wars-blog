@@ -14,9 +14,9 @@ class User (Base):
     name = Column(String(100))
     email = Column(String(250))
     password = Column(String(10))
-    favorites = relationship("favorites")
+    favorites = relationship("Favorite")
 
-class Favorites (Base):
+class Favorite (Base):
     __tablename__ = "favorites"
     id = Column(Integer, primary_key = True)
     name = Column(String(100))
@@ -28,20 +28,22 @@ class Character (Base):
     name = Column(String(100))
     homeworld = Column(String(100))
     vehicle = Column(String(100))
-    planet_id = Column(Integer, ForeignKey("planets.id"))
-    vehicle_id = Column(Integer, ForeignKey("vehicles.id"))
+    planet = relationship("Planet")
+    vehicle = relationship("Vehicle")
 
 class Planet (Base):
     __tablename__ = "planets"
     id = Column(Integer, primary_key = True)
     name = Column(String(100))
     population = Column(Integer)
+    character_id = Column (Integer, ForeignKey("characters.id"))
 
-class Vehicles (Base):
+class Vehicle (Base):
     __tablename__ = "vehicles"
     id = Column(Integer, primary_key = True)
     name = Column(String(100))
     crew = Column(Integer)
+    character_id = Column (Integer, ForeignKey("characters.id"))
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagram.png')
